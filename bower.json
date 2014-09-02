@@ -12,5 +12,10 @@
     "carousel"
   ],
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "jquery": "1.9.1",
+    "requirejs": "~2.1.14",
+    "normalize.css": "~3.0.1"
+  }
 }
