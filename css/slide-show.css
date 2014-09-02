@@ -1,0 +1,8 @@
+.slide-show{width:400px; height: 220px; background: #000; position:relative; padding:0;margin: 50px auto}
+.slide-show .slide-show-mask{width:100%;height:100%; overflow: hidden; position: relative;}
+.slide-show .slide-show-views{width:1600px; height: 220px; overflow: hidden;padding:0;margin: 0}
+.slide-show .slide-show-views .slide-show-views-item{ float: left; width: 400px; height: 200px;padding:0;margin: 0;list-style: none;}
+.slide-show .slide-show-btn-left{ position: absolute; top: 50%; left: 0; display: block; margin-top: -8px;}
+.slide-show .slide-show-btn-right{ position: absolute; top: 50%; right: 0;display: block;margin-top: -8px;}
+.slide-show .slide-show-previews{ margin:-20px auto 0; padding:0; width:auto;width:120px; overflow: hidden; background: #ff0}
+.slide-show .slide-show-previews .slide-show-previews-item{ width:20px; height: 20px;background: #f90; float: left; list-style: none;padding:0;margin: 0 5px;}

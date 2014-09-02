@@ -3,11 +3,29 @@
 <head> 
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="bower_components/normalize.css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="css/slide-show.css">
     <script type="text/javascript" src="bower_components/requirejs/require.js"></script> 
     <title>demo page</title> 
 </head>
 <body>
-    <div class="slide-show"></div>
+    <div class="slide-show" id="j-slide-show">
+        <div class="slide-show-mask">
+            <ul class="slide-show-views" data-node="views">
+                <li class="slide-show-views-item" style="background:#f30;"></li>
+                <li class="slide-show-views-item" style="background:#3f0;"></li>
+                <li class="slide-show-views-item" style="background:#30f;"></li>
+                <li class="slide-show-views-item" style="background:#f03;"></li>
+            </ul>
+        </div>
+        <a class="slide-show-btn-left" data-node="left">&lt;</a>
+        <a class="slide-show-btn-right" data-node="right">&gt;</a>
+        <ul class="slide-show-previews" data-node="previews">
+            <li class="slide-show-previews-item"></li>
+            <li class="slide-show-previews-item"></li>
+            <li class="slide-show-previews-item"></li>
+            <li class="slide-show-previews-item"></li>
+        </ul>
+    </div>
 </body>
 <script type="text/javascript" src="js/main.js"></script>
 </html>
