@@ -33,15 +33,24 @@ define(function(require, exports, module) {
         },
         add: function() {
             this._data.focus++;
-            if (this._data.focus > this._data.total-1) {
+            //余数
+            var remainder = this._data.total%this._data.step;
+            //总步数
+            var totalStep  = remainder >0 ? ((this._data.total-remainder)/this._data.step) + 1 : this._data.total/this._data.step;
+            if (this._data.focus > totalStep - 1) {
                 this._data.focus = 0
             }
         },
         subtract: function() {
             this._data.focus--;
+             //余数
+            var remainder = this._data.total%this._data.step;
+            //总步数
+            var totalStep  = remainder > 0 ? ((this._data.total - remainder)/this._data.step) + 1 : this._data.total/this._data.step;
             if (this._data.focus < 0) {
-                this._data.focus = this._data.total;
+                this._data.focus = totalStep -1;
             }
+            console.log(this._data.focus);
         }
 
     });
@@ -58,7 +67,8 @@ define(function(require, exports, module) {
             this.getDoms();
             this.initDoms();
             this._model.update({
-                total: this._viewsItems.size()
+                total: this._viewsItems.size(),
+                step: this._opt.setp || 1
             });
             this.updateView();
             this.bindEvent();
@@ -131,14 +141,29 @@ define(function(require, exports, module) {
             });
         },
         updateView: function() {
+            var _this = this;
             var focus = this._model.get("focus");
-            this._viewsItems.hide();
-            this._viewsItems.eq(focus).fadeIn();
-            this._preViewsItems.removeClass(this._opt.preViewActiveClass);
-            this._preViewsItems.eq(focus).addClass(this._opt.preViewActiveClass);
+            var step = this._model.get("step");
+            // if(step == 1 ){
+            //     this._viewsItems.hide();
+            //     this._viewsItems.eq(focus).fadeIn();
+            //     this._preViewsItems.removeClass(this._opt.preViewActiveClass);
+            //     this._preViewsItems.eq(focus).addClass(this._opt.preViewActiveClass);
+            // }else{
+                this._viewsItems.hide();
+                this._preViewsItems.removeClass(this._opt.preViewActiveClass);
+                this._viewsItems.each(function(i,item) {
+                    if(focus*step<=i && i < (focus+1)*step ){
+                       $(item).fadeIn();
+                    }
+                });
+                this._preViewsItems.each(function(i,item) {
+                    if(focus*step<=i && i < (focus+1)*step ){
+                       $(item).addClass(_this._opt.preViewActiveClass)
+                    }
+                })
+            // }
         }
-        
-
     })
     module.exports = SlideShow;
 });

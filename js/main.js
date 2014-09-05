@@ -8,7 +8,12 @@ requirejs.config({
 requirejs(['slideshow'], function(SlideShow) {
     new SlideShow({
         element: $("#j-slide-show"),
+        preViewActiveClass:"slide-show-previews-item-active"
+    });
+    new SlideShow({
+        element: $("#j-slide-list"),
         preViewActiveClass:"slide-show-previews-item-active",
+        setp:6
     });
     // new SlideShow({
     //     element: $("#j-slide-list2"),
