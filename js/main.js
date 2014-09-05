@@ -5,6 +5,13 @@ requirejs.config({
     }
 });
 //程序执行入口
-requirejs(['slideshow'],function(SlideShow) {
-    new SlideShow();
+requirejs(['slideshow'], function(SlideShow) {
+    new SlideShow({
+        element: $("#j-slide-show"),
+        preViewActiveClass:"slide-show-previews-item-active",
+    });
+    // new SlideShow({
+    //     element: $("#j-slide-list2"),
+    //     preViewActiveClass:"slide-show-previews-item-active",
+    // });
 });
