@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         this._data = { //状态数据
             focus: 0,
             total: 0,
-            step:1
+            step: 1
         }
     }
     $.extend(SlideShowModel.prototype, {
@@ -22,35 +22,35 @@ define(function(require, exports, module) {
         },
         //更新当前状态
         update: function(opt) {
-            var focus = (typeof opt.focus == "number") ? opt.focus : this._data.focus;
-            var total = (typeof opt.total == "number") ? opt.total : this._data.total;
-            var step  = (typeof opt.step == "number") ? opt.step : this._data.step;
-            this._data = { //状态数据
-                focus: focus,
-                total: total,
-                step: step
-            }
+            // var focus = (typeof opt.focus == "number") ? opt.focus : this._data.focus;
+            // var total = (typeof opt.total == "number") ? opt.total : this._data.total;
+            // var step  = (typeof opt.step == "number") ? opt.step : this._data.step;
+            // this._data = { //状态数据
+            //     focus: focus,
+            //     total: total,
+            //     step: step
+            // }
+            $.extend(this._data, opt);
         },
         add: function() {
             this._data.focus++;
             //余数
-            var remainder = this._data.total%this._data.step;
+            var remainder = this._data.total % this._data.step;
             //总步数
-            var totalStep  = remainder >0 ? ((this._data.total-remainder)/this._data.step) + 1 : this._data.total/this._data.step;
+            var totalStep = remainder > 0 ? ((this._data.total - remainder) / this._data.step) + 1 : this._data.total / this._data.step;
             if (this._data.focus > totalStep - 1) {
                 this._data.focus = 0
             }
         },
         subtract: function() {
             this._data.focus--;
-             //余数
-            var remainder = this._data.total%this._data.step;
+            //余数
+            var remainder = this._data.total % this._data.step;
             //总步数
-            var totalStep  = remainder > 0 ? ((this._data.total - remainder)/this._data.step) + 1 : this._data.total/this._data.step;
+            var totalStep = remainder > 0 ? ((this._data.total - remainder) / this._data.step) + 1 : this._data.total / this._data.step;
             if (this._data.focus < 0) {
-                this._data.focus = totalStep -1;
+                this._data.focus = totalStep - 1;
             }
-            console.log(this._data.focus);
         }
 
     });
@@ -89,9 +89,9 @@ define(function(require, exports, module) {
             this._rightBtn = this._element.find("*[data-node=right]");
             this._preViewsItems = this._element.find("*[data-node=previews]").children();
         },
-        initDoms:function() {
-            this._preViewsItems.each(function (i,item) {
-                $(item).data("index",i);
+        initDoms: function() {
+            this._preViewsItems.each(function(i, item) {
+                $(item).data("index", i);
             })
         },
         setTimeer: function() {
@@ -101,25 +101,25 @@ define(function(require, exports, module) {
                 _this.updateView();
             }, this._timeCell);
         },
-        bindViews:function() {
+        bindViews: function() {
             var _this = this;
-            this._viewsItems.on("mouseenter",function() {
+            this._viewsItems.on("mouseenter", function() {
                 clearInterval(_this._timmer);
             });
-            this._viewsItems.on("mouseleave",function() {
+            this._viewsItems.on("mouseleave", function() {
                 _this.setTimeer();
             });
         },
-        bindBtns:function() {
+        bindBtns: function() {
             var _this = this;
-            this._leftBtn.on("click",function(e) {
+            this._leftBtn.on("click", function(e) {
                 e.preventDefault();
                 clearInterval(_this._timmer);
                 _this._model.subtract();
                 _this.updateView();
                 _this.setTimeer()
             });
-            this._rightBtn.on("click",function(e) {
+            this._rightBtn.on("click", function(e) {
                 e.preventDefault();
                 clearInterval(_this._timmer);
                 _this._model.add();
@@ -127,16 +127,18 @@ define(function(require, exports, module) {
                 _this.setTimeer()
             });
         },
-        bindPreViews:function() {
+        bindPreViews: function() {
             var _this = this;
-            this._preViewsItems.on("mouseenter",function() {
+            this._preViewsItems.on("mouseenter", function() {
                 clearInterval(_this._timmer);
                 var index = $(this).data("index");
                 console.log(index);
-                _this._model.update({focus:index});
+                _this._model.update({
+                    focus: index
+                });
                 _this.updateView();
             });
-            this._preViewsItems.on("mouseleave",function() {
+            this._preViewsItems.on("mouseleave", function() {
                 _this.setTimeer();
             });
         },
@@ -150,21 +152,28 @@ define(function(require, exports, module) {
             //     this._preViewsItems.removeClass(this._opt.preViewActiveClass);
             //     this._preViewsItems.eq(focus).addClass(this._opt.preViewActiveClass);
             // }else{
+            if(this._opt.type == "fade"){
                 this._viewsItems.hide();
                 this._preViewsItems.removeClass(this._opt.preViewActiveClass);
-                this._viewsItems.each(function(i,item) {
-                    if(focus*step<=i && i < (focus+1)*step ){
-                       console.log(i);
-                       $(item).fadeIn();
-                    }else{
-                        console.log("+++++++++++++++++++++++++++++");
+                this._viewsItems.each(function(i, item) {
+                    if (focus * step <= i && i < (focus + 1) * step) {
+                        $(item).fadeIn();
                     }
                 });
-                this._preViewsItems.each(function(i,item) {
-                    if(focus*step<=i && i < (focus+1)*step ){
-                       $(item).addClass(_this._opt.preViewActiveClass)
-                    }
-                })
+            }
+            if(this._opt.type == "slide"){
+                var itemWidth = this._viewsItems.outerWidth(true);
+                var views = this._viewsItems.parent();
+                views.width(itemWidth*this._viewsItems.size());
+                var desp = - focus * step * itemWidth;
+                views.animate({marginLeft:desp+'px'});
+            }
+            this._preViewsItems.removeClass(this._opt.preViewActiveClass);
+            this._preViewsItems.each(function(i, item) {
+                if (focus * step <= i && i < (focus + 1) * step) {
+                    $(item).addClass(_this._opt.preViewActiveClass);
+                }
+            })
             // }
         }
     })
