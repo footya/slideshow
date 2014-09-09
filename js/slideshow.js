@@ -154,7 +154,10 @@ define(function(require, exports, module) {
                 this._preViewsItems.removeClass(this._opt.preViewActiveClass);
                 this._viewsItems.each(function(i,item) {
                     if(focus*step<=i && i < (focus+1)*step ){
+                       console.log(i);
                        $(item).fadeIn();
+                    }else{
+                        console.log("+++++++++++++++++++++++++++++");
                     }
                 });
                 this._preViewsItems.each(function(i,item) {
