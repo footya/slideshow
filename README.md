@@ -1,4 +1,4 @@
-slideshow 滑动组件
+slideshow 滑动组件[doing]
 =========
 
 >基于jquery的跑马灯效果，支持普通幻灯片和多个模块的滑动效果
